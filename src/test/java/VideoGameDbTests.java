@@ -56,8 +56,9 @@ public class VideoGameDbTests extends VideoGameConfig {
                 body(matchesJsonSchemaInClasspath("VideoGameJsonSchema.json"));
 
         assertTrue(videoGame.getCategory().contains("Driving"));
-        assertTrue(videoGame.getReviewScore().equals("90"));
-        assertTrue(videoGame.getId().equals("10"));
+        assertTrue(videoGame.getReviewScore() == 90);
+        assertTrue(videoGame.getReviewScore() > 85);
+        assertTrue(videoGame.getId() == 10);
         assertTrue(videoGame.getRating().equals("Mature"));
         assertTrue(videoGame.getName().contains("Auto"));
     }
