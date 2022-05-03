@@ -1,12 +1,14 @@
 import config.VideoGameConfig;
 import config.VideoGamesEndpoints;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.lessThan;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class VideoGameDbTests extends VideoGameConfig {
 
@@ -42,12 +44,22 @@ public class VideoGameDbTests extends VideoGameConfig {
 
     @Test
     public void testVideoGameSchemaJSON() {
-        given().
-                pathParam("videoGameId", 15).
-        when().
-                get(VideoGamesEndpoints.SINGLE_VIDEO_GAME).
-        then().
+        Response response = given().
+                pathParam("videoGameId", 10).
+                when().
+                get(VideoGamesEndpoints.SINGLE_VIDEO_GAME);
+
+
+        VideoGame videoGame = response.getBody().as(VideoGame.class);
+        response.
+                then().
                 body(matchesJsonSchemaInClasspath("VideoGameJsonSchema.json"));
+
+        assertTrue(videoGame.getCategory().contains("Driving"));
+        assertTrue(videoGame.getReviewScore().equals("90"));
+        assertTrue(videoGame.getId().equals("10"));
+        assertTrue(videoGame.getRating().equals("Mature"));
+        assertTrue(videoGame.getName().contains("Auto"));
     }
 
     @Test
