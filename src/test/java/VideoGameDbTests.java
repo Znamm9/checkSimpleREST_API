@@ -14,8 +14,9 @@ public class VideoGameDbTests extends VideoGameConfig {
 
     @Test
     public void createNewGameByJSON() {
+
         String gameBodyJson = "{\n" +
-                "  \"id\": 16,\n" +
+                "  \"id\": 17,\n" +
                 "  \"name\": \"MyNewGame\",\n" +
                 "  \"releaseDate\": \"2012-12-03T10:02:58.768Z\",\n" +
                 "  \"reviewScore\": 88,\n" +
@@ -28,8 +29,8 @@ public class VideoGameDbTests extends VideoGameConfig {
         when()
                 .post(VideoGamesEndpoints.ALL_VIDEO_GAMES);
 
-        response
-                .then();
+        CreateGameModel createGameModel = response.getBody().as(CreateGameModel.class);
+        assertTrue(createGameModel.status.equals("Record Added Successfully"));
     }
 
     @Test
